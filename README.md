@@ -12,10 +12,6 @@ A few resources to get you started if this is your first Flutter project:
 - [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
 - [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
-=======
 # Temperature Conversion App
 
 Welcome to the Temperature Conversion App! This simple yet powerful tool allows you to effortlessly convert temperatures between Fahrenheit and Celsius. Whether you’re a science enthusiast, a traveler, or just need to quickly convert temperatures for a recipe, this app has got you covered.
@@ -47,5 +43,3 @@ Check out the live demo of the Temperature Conversion App here: [Live Demo](http
 ## Video Demonstration
 
 Watch a brief video walkthrough of the app: [Video Demo](https://yourvideodemoURL.com)
-
->>>>>>> 69459ac4e06885ab4bb98b792eddd13726aaf2ad
