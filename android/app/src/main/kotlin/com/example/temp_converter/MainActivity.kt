@@ -1,4 +1,4 @@
-package com.example.product_navigation
+package com.example.temp_converter
 
 import io.flutter.embedding.android.FlutterActivity
 

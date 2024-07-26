@@ -1,220 +1,215 @@
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(const ProductNavigationApp());
-}
+void main() => runApp(const TempConverterApp());
 
-class ProductNavigationApp extends StatelessWidget {
-  const ProductNavigationApp({super.key});
+class TempConverterApp extends StatelessWidget {
+  const TempConverterApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Product Navigation',
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: const ProductListScreen(),
+      home: const TempConverterScreen(),
     );
   }
 }
 
-class Product {
-  final String name;
-  final String description;
-  final int price;
-  final Color color;
-  final int rating;
+class TempConverterScreen extends StatefulWidget {
+  const TempConverterScreen({super.key});
 
-  Product({
-    required this.name,
-    required this.description,
-    required this.price,
-    required this.color,
-    required this.rating,
-  });
+  @override
+  _TempConverterScreenState createState() => _TempConverterScreenState();
 }
 
-class ProductListScreen extends StatelessWidget {
-  final List<Product> products = [
-    Product(
-      name: 'Pixel 1',
-      description: 'Pixel is the most featureful phone ever',
-      price: 800,
-      color: Colors.blue,
-      rating: 2,
-    ),
-    Product(
-      name: 'Laptop',
-      description: 'Laptop is the most productive development tool',
-      price: 2000,
-      color: Colors.green,
-      rating: 4,
-    ),
-    Product(
-      name: 'Tablet',
-      description: 'Tablet is the most useful device ever for meeting',
-      price: 1500,
-      color: Colors.amber,
-      rating: 3,
-    ),
-    Product(
-      name: 'Pen Drive',
-      description: 'iPhone is the stylist phone ever',
-      price: 100,
-      color: Colors.brown,
-      rating: 1,
-    ),
-    Product(
-      name: 'Floppy Drive',
-      description: 'iPhone is the stylist phone ever',
-      price: 100,
-      color: Colors.teal,
-      rating: 5,
-    ),
-  ];
+class _TempConverterScreenState extends State<TempConverterScreen> {
+  final TextEditingController _controller = TextEditingController();
+  String _result = '';
+  String _history = '';
+  bool _isFahrenheitToCelsius = true;
 
-  const ProductListScreen({super.key});
+  void _convertTemperature() {
+    final input = double.tryParse(_controller.text);
+    if (input == null) return;
+
+    double converted;
+    if (_isFahrenheitToCelsius) {
+      converted = (input - 32) * 5 / 9;
+    } else {
+      converted = input * 9 / 5 + 32;
+    }
+
+    setState(() {
+      _result = converted.toStringAsFixed(2);
+      _history =
+          '$_history${_isFahrenheitToCelsius ? 'F to C' : 'C to F'}: ${input.toStringAsFixed(1)} => $_result\n';
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.blue, // Set the navigation bar color
-        automaticallyImplyLeading: false, // Hide the default back button
-        flexibleSpace: SafeArea(
-          child: Container(
-            color: Colors.blue, // Set the header color
-            padding: const EdgeInsets.all(16.0),
-            child: const Center(
-              child: Text(
-                'Product Navigation',
-                style: TextStyle(
-                  fontSize: 26,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
+        title: const Text(
+          'Temperature Converter',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
           ),
         ),
+        backgroundColor: Colors.blue,
       ),
-      body: ListView.builder(
-        itemCount: products.length,
-        itemBuilder: (context, index) {
-          return Card(
-            child: Row(
-              children: [
-                Container(
-                  width: 100,
-                  height: 100,
-                  color: products[index].color,
-                  child: Center(
-                    child: Text(
-                      products[index].name,
-                      style: const TextStyle(fontSize: 24, color: Colors.white),
-                      textAlign: TextAlign.center,
-                    ),
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Colors.blue, Colors.lightBlueAccent],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              const Text(
+                'Conversion:',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 24,
+                  color: Colors.white,
+                ),
+              ),
+              const SizedBox(height: 20),
+              Card(
+                elevation: 4,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      ChoiceChip(
+                        label: const Text('Fahrenheit to Celsius'),
+                        selected: _isFahrenheitToCelsius,
+                        onSelected: (bool selected) {
+                          setState(() {
+                            _isFahrenheitToCelsius = true;
+                          });
+                        },
+                      ),
+                      ChoiceChip(
+                        label: const Text('Celsius to Fahrenheit'),
+                        selected: !_isFahrenheitToCelsius,
+                        onSelected: (bool selected) {
+                          setState(() {
+                            _isFahrenheitToCelsius = false;
+                          });
+                        },
+                      ),
+                    ],
                   ),
                 ),
-                Expanded(
-                  child: ListTile(
-                    title: Text(
-                      products[index].name,
-                      style:
-                          const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                    ),
-                    subtitle: Column(
+              ),
+              const SizedBox(height: 20),
+              TextField(
+                controller: _controller,
+                keyboardType: TextInputType.number,
+                decoration: InputDecoration(
+                  labelText: 'Enter Temperature',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  filled: true,
+                  fillColor: Colors.white70,
+                ),
+              ),
+              const SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: _convertTemperature,
+                style: ElevatedButton.styleFrom(
+                  foregroundColor: Colors.blue,
+                  backgroundColor: Colors.white,
+                  padding: const EdgeInsets.symmetric(vertical: 15),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  textStyle: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                child: const Text('CONVERT'),
+              ),
+              const SizedBox(height: 20),
+              Card(
+                elevation: 4,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    children: [
+                      const Text(
+                        'Result',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 24,
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      Text(
+                        _result,
+                        style: const TextStyle(
+                          fontSize: 28,
+                          color: Colors.blue,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20),
+              Expanded(
+                child: Card(
+                  elevation: 4,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(products[index].description),
-                        Text('Price: ${products[index].price}'),
-                        Row(
-                          children: List.generate(
-                            5,
-                            (starIndex) => Icon(
-                              starIndex < products[index].rating
-                                  ? Icons.star
-                                  : Icons.star_border,
-                              color: Colors.red,
+                        const Text(
+                          'History:',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 24,
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        Expanded(
+                          child: SingleChildScrollView(
+                            child: Text(
+                              _history,
+                              style: const TextStyle(fontSize: 18),
                             ),
                           ),
                         ),
                       ],
                     ),
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              ProductDetailScreen(product: products[index]),
-                        ),
-                      );
-                    },
                   ),
                 ),
-              ],
-            ),
-          );
-        },
-      ),
-    );
-  }
-}
-
-class ProductDetailScreen extends StatelessWidget {
-  final Product product;
-
-  const ProductDetailScreen({super.key, required this.product});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(product.name),
-        backgroundColor: Colors.blue, // Set the navigation bar color
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              width: double.infinity,
-              height: 200,
-              color: product.color,
-              child: Center(
-                child: Text(
-                  product.name,
-                  style: const TextStyle(fontSize: 32, color: Colors.white),
-                ),
               ),
-            ),
-            const SizedBox(height: 16),
-            Text(
-              product.name,
-              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 8),
-            Text(product.description),
-            const SizedBox(height: 8),
-            Text('Price: ${product.price}'),
-            Row(
-              children: List.generate(
-                5,
-                (index) => Icon(
-                  index < product.rating ? Icons.star : Icons.star_border,
-                  color: Colors.red,
-                ),
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

@@ -1,6 +1,6 @@
 {
-    "name": "product_navigation",
-    "short_name": "product_navigation",
+    "name": "temp_converter",
+    "short_name": "temp_converter",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
