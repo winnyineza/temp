@@ -35,10 +35,6 @@ To run this app locally:
     cd temp
     ```
 
-## Demo
-
-Check out the live demo of the Temperature Conversion App here: [Live Demo](https://yourdemoURL.com)
-
 ## Video Demonstration
 
 Watch a brief video walkthrough of the app: [Video Demo](https://yourvideodemoURL.com)
