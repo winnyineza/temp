@@ -9,13 +9,6 @@ Welcome to the Temperature Conversion App! This simple yet powerful tool allows 
 - **History Tracking**: Keeps a record of all conversions for easy reference.
 - **Precision**: Results are displayed with two decimal places for accurate readings.
 
-## How It Works
-
-1. **Select Conversion Type**: Choose between Fahrenheit-to-Celsius or Celsius-to-Fahrenheit conversion.
-2. **Enter Temperature**: Input the temperature value you wish to convert.
-3. **Convert**: Click the "Convert" button to see the result instantly.
-4. **View History**: Each conversion is added to the history log, showing the original value, conversion type, and result.
-
 ## Installation
 
 To run this app locally:
