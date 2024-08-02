@@ -37,4 +37,4 @@ To run this app locally:
 
 ## Video Demonstration
 
-Watch a brief video walkthrough of the app: [Video Demo](https://youtu.be/bKtyOHZRybY)
+Watch a brief video walkthrough of the app: [Video Demo](https://youtu.be/xxVwBMk3DYI)
